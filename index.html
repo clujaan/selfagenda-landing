@@ -425,7 +425,7 @@
 
     .forwho-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 16px;
       margin-top: 48px;
     }
@@ -446,6 +446,8 @@
 
     .forwho-card .ico { font-size: 30px; margin-bottom: 10px; display: block; }
     .forwho-card p { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+    .forwho-title { font-size: 14px !important; font-weight: 700 !important; color: var(--text-primary) !important; margin-bottom: 8px; line-height: 1.3; }
+    .forwho-examples { font-size: 12px !important; font-weight: 400 !important; color: var(--text-muted) !important; line-height: 1.6; }
 
     /* HOW IT WORKS */
     .steps {
@@ -977,14 +979,46 @@
     <p class="section-sub">Dacă lucrezi pe cont propriu și ai nevoie să îți organizezi timpul, Self Agenda e pentru tine.</p>
 
     <div class="forwho-grid">
-      <div class="forwho-card"><span class="ico">✂️</span><p>Hair Stylist</p></div>
-      <div class="forwho-card"><span class="ico">💅</span><p>Nail Artist</p></div>
-      <div class="forwho-card"><span class="ico">👁️</span><p>Extensii gene</p></div>
-      <div class="forwho-card"><span class="ico">🧖</span><p>Cosmeticiană</p></div>
-      <div class="forwho-card"><span class="ico">🪒</span><p>Frizer / barber</p></div>
-      <div class="forwho-card"><span class="ico">💆</span><p>Maseur</p></div>
-      <div class="forwho-card"><span class="ico">🦷</span><p>Stomatolog</p></div>
-      <div class="forwho-card"><span class="ico">🔧</span><p>Mecanic auto</p></div>
+      <div class="forwho-card">
+        <span class="ico">💄</span>
+        <p class="forwho-title">Înfrumusețare & îngrijire personală</p>
+        <p class="forwho-examples">Hair stylist · Nail artist · Make-up artist · Cosmeticiană · Extensii gene · Maseur</p>
+      </div>
+      <div class="forwho-card">
+        <span class="ico">🦷</span>
+        <p class="forwho-title">Sănătate & servicii medicale</p>
+        <p class="forwho-examples">Stomatolog · Kinetoterapeut · Nutriționist · Psiholog · Fizioterapeut</p>
+      </div>
+      <div class="forwho-card">
+        <span class="ico">🔧</span>
+        <p class="forwho-title">Servicii auto</p>
+        <p class="forwho-examples">Mecanic · Tinichigiu · Detailing auto · Electrician auto</p>
+      </div>
+      <div class="forwho-card">
+        <span class="ico">🏗️</span>
+        <p class="forwho-title">Construcții & amenajări</p>
+        <p class="forwho-examples">Zugrav · Instalator · Electrician · Designer interior · Parchetar</p>
+      </div>
+      <div class="forwho-card">
+        <span class="ico">💪</span>
+        <p class="forwho-title">Sport & wellness</p>
+        <p class="forwho-examples">Antrenor personal · Instructor yoga · Instructor pilates · Nutriționist sportiv</p>
+      </div>
+      <div class="forwho-card">
+        <span class="ico">📚</span>
+        <p class="forwho-title">Educație & formare</p>
+        <p class="forwho-examples">Meditații · Instructor auto · Coach · Trainer corporativ</p>
+      </div>
+      <div class="forwho-card">
+        <span class="ico">🐾</span>
+        <p class="forwho-title">Servicii pentru animale</p>
+        <p class="forwho-examples">Veterinar · Groomer · Pet sitter · Dresor</p>
+      </div>
+      <div class="forwho-card">
+        <span class="ico">📸</span>
+        <p class="forwho-title">Servicii creative</p>
+        <p class="forwho-examples">Fotograf · Videograf · DJ · Makeup artist nuntă</p>
+      </div>
     </div>
   </div>
 </section>
