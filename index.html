@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Self Agenda — Agenda ta digitală, pentru orice domeniu</title>
+  <meta name="description" content="Gestionează-ți programările, clienții și veniturile dintr-o singură aplicație simplă. Pentru freelanceri din orice domeniu." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:        #C4A882;
+      --primary-dark:   #A8956B;
+      --primary-soft:   #F2EDE4;
+      --background:     #FAFAF8;
+      --surface:        #FFFFFF;
+      --text-primary:   #2C2825;
+      --text-secondary: #8C7E6E;
+      --text-muted:     #B0A090;
+      --border:         #E8E0D5;
+      --border-strong:  #D4C5B0;
+      --success:        #7A9E7E;
+      --success-soft:   #EEF4EE;
+      --warning:        #C4956A;
+      --error:          #B5706B;
+      --radius:         16px;
+      --radius-sm:      10px;
+      --shadow:         0 1px 3px rgba(44,40,37,0.06), 0 4px 16px rgba(44,40,37,0.07);
+      --shadow-lg:      0 8px 32px rgba(44,40,37,0.12), 0 2px 8px rgba(44,40,37,0.06);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--background);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Sora', sans-serif;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 250, 248, 0.93);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: -0.03em;
+    }
+
+    .nav-logo span { color: var(--primary); }
+
+    .nav-cta {
+      background: var(--primary);
+      color: var(--surface);
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 10px 22px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .nav-cta:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+    /* HERO */
+    .hero {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 96px 24px 72px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 16px;
+      border-radius: 999px;
+      margin-bottom: 28px;
+      border: 1px solid var(--border);
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 62px);
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--primary);
+    }
+
+    .hero p {
+      font-size: clamp(16px, 2.5vw, 19px);
+      color: var(--text-secondary);
+      max-width: 540px;
+      margin: 0 auto 40px;
+      font-weight: 300;
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--surface);
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 14px 32px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(196,168,130,0.35);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(196,168,130,0.45);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      font-family: 'Sora', sans-serif;
+      font-weight: 500;
+      font-size: 15px;
+      padding: 14px 28px;
+      border-radius: 999px;
+      text-decoration: none;
+      border: 1.5px solid var(--border-strong);
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary);
+      color: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    /* DOMAIN PILLS */
+    .domains {
+      text-align: center;
+      padding: 8px 24px 56px;
+    }
+
+    .domains p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      font-weight: 500;
+    }
+
+    .domain-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 999px;
+    }
+
+    /* SECTION BASE */
+    .section {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      font-size: 17px;
+      color: var(--text-secondary);
+      max-width: 520px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* FEATURES */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 56px;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--border-strong);
+    }
+
+    .feature-icon { font-size: 28px; margin-bottom: 16px; display: block; }
+
+    .feature-card h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    /* FOR WHO */
+    .forwho-bg {
+      background: var(--primary-soft);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .forwho-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-top: 48px;
+    }
+
+    .forwho-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .forwho-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .forwho-card .ico { font-size: 30px; margin-bottom: 10px; display: block; }
+    .forwho-card p { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+
+    /* HOW IT WORKS */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      margin-top: 56px;
+      max-width: 600px;
+    }
+
+    .step {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      position: relative;
+    }
+
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 48px;
+      width: 2px;
+      height: calc(100% - 8px);
+      background: var(--border);
+    }
+
+    .step-num {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: var(--surface);
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-content { padding-bottom: 40px; }
+
+    .step-content h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .step-content p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    /* TESTIMONIALE */
+    .testimonials-bg {
+      background: var(--primary-soft);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 48px;
+    }
+
+    .testimonial-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .stars { color: var(--warning); font-size: 15px; margin-bottom: 14px; }
+
+    .testimonial-card blockquote {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+
+    .author-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--primary-soft);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .author-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+    .author-role { font-size: 12px; color: var(--text-muted); }
+
+    /* PRICING */
+    .pricing-bg {
+      background: var(--text-primary);
+    }
+
+    .pricing-bg .section-label { color: var(--primary); }
+    .pricing-bg .section-title { color: var(--surface); }
+    .pricing-bg .section-sub { color: var(--border-strong); }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 56px;
+    }
+
+    .pricing-card {
+      background: #3a3430;
+      border: 1px solid #4a4440;
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      position: relative;
+      transition: transform 0.2s;
+    }
+
+    .pricing-card:hover { transform: translateY(-3px); }
+
+    .pricing-card.featured {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .pricing-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--warning);
+      color: var(--surface);
+      font-family: 'Sora', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 999px;
+      white-space: nowrap;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .pricing-period {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--border-strong);
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      margin-bottom: 16px;
+    }
+
+    .pricing-card.featured .pricing-period { color: rgba(255,255,255,0.75); }
+
+    .pricing-price {
+      font-family: 'Sora', sans-serif;
+      font-size: 44px;
+      font-weight: 800;
+      color: var(--surface);
+      line-height: 1;
+      margin-bottom: 4px;
+      letter-spacing: -0.03em;
+    }
+
+    .pricing-price sup { font-size: 20px; font-weight: 600; vertical-align: super; }
+
+    .pricing-per { font-size: 13px; color: var(--border-strong); margin-bottom: 8px; }
+    .pricing-card.featured .pricing-per { color: rgba(255,255,255,0.75); }
+
+    .pricing-total {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--primary);
+      margin-bottom: 24px;
+      min-height: 20px;
+    }
+
+    .pricing-card.featured .pricing-total { color: #fde68a; }
+
+    .pricing-divider {
+      border: none;
+      border-top: 1px solid #4a4440;
+      margin-bottom: 24px;
+    }
+
+    .pricing-card.featured .pricing-divider { border-color: rgba(255,255,255,0.25); }
+
+    .pricing-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .pricing-features li {
+      font-size: 14px;
+      color: var(--border);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .pricing-card.featured .pricing-features li { color: rgba(255,255,255,0.92); }
+
+    .pricing-features li::before {
+      content: '✓';
+      color: var(--success);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .pricing-card.featured .pricing-features li::before { color: #fff; }
+
+    .pricing-btn {
+      display: block;
+      text-align: center;
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 13px 24px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .pricing-btn-outline {
+      border: 1.5px solid #4a4440;
+      color: var(--surface);
+    }
+
+    .pricing-btn-outline:hover {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: var(--surface);
+    }
+
+    .pricing-btn-solid {
+      background: var(--surface);
+      color: var(--primary-dark);
+    }
+
+    .pricing-btn-solid:hover {
+      background: var(--primary-soft);
+      transform: translateY(-1px);
+    }
+
+    /* FAQ */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 48px;
+      max-width: 680px;
+    }
+
+    details {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    details summary {
+      padding: 18px 22px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+
+    details summary::-webkit-details-marker { display: none; }
+
+    details summary::after {
+      content: '+';
+      font-size: 20px;
+      color: var(--text-muted);
+      font-weight: 300;
+      transition: transform 0.2s;
+      flex-shrink: 0;
+      margin-left: 12px;
+    }
+
+    details[open] summary::after { transform: rotate(45deg); }
+    details[open] { border-color: var(--border-strong); }
+
+    details p {
+      padding: 0 22px 18px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* CTA FINAL */
+    .cta-final {
+      background: var(--primary-soft);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 96px 24px;
+    }
+
+    .cta-final h2 {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .cta-final p {
+      font-size: 17px;
+      color: var(--text-secondary);
+      margin-bottom: 36px;
+      font-weight: 300;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--text-primary);
+      color: var(--text-secondary);
+      text-align: center;
+      padding: 40px 24px;
+      font-size: 13px;
+    }
+
+    footer a { color: var(--border-strong); text-decoration: none; }
+    footer a:hover { color: var(--surface); }
+
+    .footer-logo {
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--surface);
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+
+    .footer-logo span { color: var(--primary); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-badge { animation: fadeUp 0.5s ease both; }
+    .hero h1    { animation: fadeUp 0.5s ease both 0.1s; }
+    .hero p     { animation: fadeUp 0.5s ease both 0.2s; }
+    .hero-actions { animation: fadeUp 0.5s ease both 0.3s; }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      nav { padding: 0 16px; }
+      .section { padding: 56px 16px; }
+      .hero { padding: 64px 16px 48px; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .forwho-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Self<span>Agenda</span></a>
+  <a href="#preturi" class="nav-cta">Vezi prețurile</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">✦ Agenda digitală pentru freelanceri independenți</div>
+  <h1>Organizează-ți agenda,<br><em>concentrează-te pe meserie</em></h1>
+  <p>Gestionează programările, clienții și veniturile dintr-o singură aplicație simplă. Fără complicații, fără contract, fără surprize.</p>
+  <div class="hero-actions">
+    <a href="#preturi" class="btn-primary">Încearcă acum</a>
+    <a href="#cum-functioneaza" class="btn-secondary">Cum funcționează →</a>
+  </div>
+</section>
+
+<!-- DOMAIN PILLS -->
+<div class="domains">
+  <p>Folosit de freelanceri din</p>
+  <div class="domain-pills">
+    <span class="pill">✂️ Coafură</span>
+    <span class="pill">💅 Nail art</span>
+    <span class="pill">👁️ Gene & sprâncene</span>
+    <span class="pill">🪒 Frizerie</span>
+    <span class="pill">🧖 Cosmetică</span>
+    <span class="pill">🦷 Stomatologie</span>
+    <span class="pill">🔧 Mecanică auto</span>
+    <span class="pill">💆 Masaj</span>
+    <span class="pill">+ orice alt domeniu</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section">
+  <div class="section-label">Funcționalități</div>
+  <h2 class="section-title">Tot ce ai nevoie<br>într-un singur loc</h2>
+  <p class="section-sub">Construit pentru cei care lucrează singuri și vor să se concentreze pe meseria lor, nu pe organizare.</p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">📅</span>
+      <h3>Calendar vizual</h3>
+      <p>Vezi toate programările lunii dintr-o privire. Navighezi ușor între zile, adaugi și modifici programări în câteva secunde.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">👥</span>
+      <h3>Gestionare clienți</h3>
+      <p>Istoricul complet al fiecărui client — programări, servicii, notițe personale. Știi întotdeauna cu cine lucrezi.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">💰</span>
+      <h3>Dashboard venituri</h3>
+      <p>Urmărești încasările zilnic, săptămânal, lunar și anual. Știi exact cât ai câștigat și cât mai ai de încasat.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">💬</span>
+      <h3>Confirmare WhatsApp</h3>
+      <p>Trimite confirmare sau reminder de programare direct pe WhatsApp, cu un singur click. Mesajul e gata — tu doar apeși.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🎂</span>
+      <h3>Zile de naștere</h3>
+      <p>Aplicația îți amintește zilele de naștere ale clienților și îți pregătește un mesaj de felicitare cu un singur tap.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🚫</span>
+      <h3>Blocare zile libere</h3>
+      <p>Marchezi zilele de concediu sau orele indisponibile. Știi mereu ce zile sunt libere și ce zile sunt ocupate.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🔁</span>
+      <h3>Programări multiple</h3>
+      <p>Adaugi același client pe mai multe zile simultan — perfect pentru clienți fideli cu programări recurente.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">📱</span>
+      <h3>Funcționează pe telefon</h3>
+      <p>Instalezi ca aplicație pe iPhone sau Android. Funcționează ca o aplicație nativă, fără App Store sau Google Play.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">📊</span>
+      <h3>Statistici detaliate</h3>
+      <p>Cel mai popular serviciu, clientul cel mai fidel, cea mai bună lună. Date reale pentru decizii mai bune.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PENTRU CINE -->
+<section class="forwho-bg">
+  <div class="section">
+    <div class="section-label">Pentru cine</div>
+    <h2 class="section-title">Orice freelancer<br>cu clienți și programări</h2>
+    <p class="section-sub">Dacă lucrezi pe cont propriu și ai nevoie să îți organizezi programările, Self Agenda e pentru tine.</p>
+
+    <div class="forwho-grid">
+      <div class="forwho-card"><span class="ico">✂️</span><p>Coafeză / stilist</p></div>
+      <div class="forwho-card"><span class="ico">💅</span><p>Nail artist</p></div>
+      <div class="forwho-card"><span class="ico">👁️</span><p>Extensii gene</p></div>
+      <div class="forwho-card"><span class="ico">🧖</span><p>Cosmeticiană</p></div>
+      <div class="forwho-card"><span class="ico">🪒</span><p>Frizer / barber</p></div>
+      <div class="forwho-card"><span class="ico">💆</span><p>Maseur</p></div>
+      <div class="forwho-card"><span class="ico">🦷</span><p>Stomatolog</p></div>
+      <div class="forwho-card"><span class="ico">🔧</span><p>Mecanic auto</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CUM FUNCTIONEAZA -->
+<section class="section" id="cum-functioneaza">
+  <div class="section-label">Cum funcționează</div>
+  <h2 class="section-title">Simplu de la primul<br>minut</h2>
+  <p class="section-sub">Fără tutorial lung, fără configurare complicată. Ești operațional în mai puțin de 5 minute.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h3>Îți creezi contul</h3>
+        <p>Email și parolă — gata. Completezi numele locației și alegi o temă de culori. Durează 2 minute.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h3>Adaugi serviciile și clienții</h3>
+        <p>Introduci serviciile tale cu prețul și durata. Adaugi clienții existenți sau îi adaugi pe parcurs, la fiecare programare nouă.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h3>Începi să programezi</h3>
+        <p>Selectezi ziua din calendar, alegi clientul și serviciul, setezi ora. Programarea e salvată instant și o poți confirma pe WhatsApp.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h3>Urmărești veniturile</h3>
+        <p>La final de zi marchezi programările ca plătite. Dashboard-ul îți arată automat cât ai încasat și cât mai ai de încasat.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALE -->
+<section class="testimonials-bg">
+  <div class="section">
+    <div class="section-label">Testimoniale</div>
+    <h2 class="section-title">Ce spun cei care<br>o folosesc</h2>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>„Înainte aveam totul în caietul de hârtie și pierdeam timp să caut informații despre clienți. Acum am totul în telefon și îmi ia 30 de secunde să adaug o programare."</blockquote>
+        <div class="testimonial-author">
+          <div class="author-avatar">✂️</div>
+          <div>
+            <div class="author-name">Andreea M.</div>
+            <div class="author-role">Coafeză, Cluj-Napoca</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>„Funcția de WhatsApp e extraordinară. Clienții mei primesc confirmarea programării instant și nu mai am situații în care uită că au programare."</blockquote>
+        <div class="testimonial-author">
+          <div class="author-avatar">💅</div>
+          <div>
+            <div class="author-name">Ioana P.</div>
+            <div class="author-role">Nail artist, București</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>„Am instalat-o pe iPhone ca aplicație și o folosesc exact ca pe orice altă aplicație nativă. Rapid, clar, fără bătăi de cap. Exact ce aveam nevoie."</blockquote>
+        <div class="testimonial-author">
+          <div class="author-avatar">🪒</div>
+          <div>
+            <div class="author-name">Mihai D.</div>
+            <div class="author-role">Barber, Timișoara</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-bg" id="preturi">
+  <div class="section">
+    <div class="section-label">Prețuri</div>
+    <h2 class="section-title">Un singur plan,<br>tot ce ai nevoie</h2>
+    <p class="section-sub">Fără funcții ascunse, fără surprize la factură. Alegi perioada care ți se potrivește.</p>
+
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-period">Lunar</div>
+        <div class="pricing-price"><sup>RON </sup>69</div>
+        <div class="pricing-per">pe lună</div>
+        <div class="pricing-total">&nbsp;</div>
+        <hr class="pricing-divider" />
+        <ul class="pricing-features">
+          <li>Calendar complet cu programări</li>
+          <li>Clienți și servicii nelimitate</li>
+          <li>Dashboard venituri</li>
+          <li>Confirmare WhatsApp</li>
+          <li>Zile de naștere clienți</li>
+          <li>Instalabil pe telefon (PWA)</li>
+          <li>Actualizări incluse</li>
+        </ul>
+        <a href="#" class="pricing-btn pricing-btn-outline">Începe lunar</a>
+      </div>
+
+      <div class="pricing-card featured">
+        <div class="pricing-badge">CEL MAI ALES</div>
+        <div class="pricing-period">6 luni</div>
+        <div class="pricing-price"><sup>RON </sup>349</div>
+        <div class="pricing-per">plată unică · ~58 RON/lună</div>
+        <div class="pricing-total">Economisești 65 RON față de lunar</div>
+        <hr class="pricing-divider" />
+        <ul class="pricing-features">
+          <li>Calendar complet cu programări</li>
+          <li>Clienți și servicii nelimitate</li>
+          <li>Dashboard venituri</li>
+          <li>Confirmare WhatsApp</li>
+          <li>Zile de naștere clienți</li>
+          <li>Instalabil pe telefon (PWA)</li>
+          <li>Actualizări incluse</li>
+        </ul>
+        <a href="#" class="pricing-btn pricing-btn-solid">Alege 6 luni</a>
+      </div>
+
+      <div class="pricing-card">
+        <div class="pricing-period">12 luni</div>
+        <div class="pricing-price"><sup>RON </sup>599</div>
+        <div class="pricing-per">plată unică · ~50 RON/lună</div>
+        <div class="pricing-total">Economisești 229 RON față de lunar</div>
+        <hr class="pricing-divider" />
+        <ul class="pricing-features">
+          <li>Calendar complet cu programări</li>
+          <li>Clienți și servicii nelimitate</li>
+          <li>Dashboard venituri</li>
+          <li>Confirmare WhatsApp</li>
+          <li>Zile de naștere clienți</li>
+          <li>Instalabil pe telefon (PWA)</li>
+          <li>Actualizări incluse</li>
+        </ul>
+        <a href="#" class="pricing-btn pricing-btn-outline">Alege 12 luni</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="section-label">Întrebări frecvente</div>
+  <h2 class="section-title">Ai întrebări?<br>Avem răspunsuri.</h2>
+
+  <div class="faq-list">
+    <details>
+      <summary>Trebuie să instalez ceva pe telefon?</summary>
+      <p>Nu trebuie să descarci nimic din App Store sau Google Play. Self Agenda funcționează direct din browser și poate fi adăugată pe ecranul principal al telefonului ca orice altă aplicație, în câteva secunde.</p>
+    </details>
+    <details>
+      <summary>Funcționează și pe desktop / laptop?</summary>
+      <p>Da, aplicația are un layout optimizat atât pentru telefon cât și pentru desktop. Poți folosi Self Agenda de pe orice dispozitiv cu browser.</p>
+    </details>
+    <details>
+      <summary>Datele mele sunt în siguranță?</summary>
+      <p>Da. Datele tale sunt stocate securizat în cloud și sunt accesibile doar de contul tău. Niciun alt utilizator nu poate vedea clienții sau programările tale.</p>
+    </details>
+    <details>
+      <summary>Pot anula oricând?</summary>
+      <p>Pentru planul lunar, poți anula oricând înainte de reînnoire. Pentru planurile de 6 sau 12 luni, accesul rămâne activ până la expirarea perioadei plătite.</p>
+    </details>
+    <details>
+      <summary>Câți clienți și servicii pot adăuga?</summary>
+      <p>Nelimitat. Nu există nicio restricție privind numărul de clienți, servicii sau programări — indiferent de planul ales.</p>
+    </details>
+    <details>
+      <summary>Cum funcționează confirmarea pe WhatsApp?</summary>
+      <p>Dintr-o programare, apeși butonul „Trimite pe WhatsApp". Aplicația deschide automat conversația cu clientul și pregătește mesajul de confirmare sau reminder — tu doar apeși „Trimite".</p>
+    </details>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final">
+  <h2>Gata să îți organizezi<br>agenda digital?</h2>
+  <p>Începe astăzi. Configurare în 5 minute, fără card necesar pentru start.</p>
+  <a href="#preturi" class="btn-primary" style="font-size: 16px; padding: 16px 40px;">Alege planul tău →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Self<span>Agenda</span></div>
+  <p style="margin-bottom: 16px;">Agenda digitală pentru freelanceri din orice domeniu.</p>
+  <p>© 2026 SelfAgenda · <a href="#">Termeni și condiții</a> · <a href="#">Politică de confidențialitate</a></p>
+</footer>
+
+</body>
+</html>
