@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SelfAgenda — Agenda digitală pentru freelanceri</title>
+  <meta name="description" content="SelfAgenda — agenda digitală care îți organizează programările, contactele și activitatea. Spune-ne părerea ta în 2 minute." />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary:        #C4A882;
+      --primary-dark:   #A8956B;
+      --primary-soft:   #F2EDE4;
+      --background:     #FAFAF8;
+      --surface:        #FFFFFF;
+      --text-primary:   #2C2825;
+      --text-secondary: #8C7E6E;
+      --text-muted:     #B0A090;
+      --border:         #E8E0D5;
+      --success:        #7A9E7E;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--background);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 560px; margin: 0 auto; padding: 0 22px; }
+
+    /* HEADER */
+    header {
+      padding: 28px 0 0;
+      text-align: center;
+    }
+    .logo {
+      font-family: 'Sora', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--primary); }
+    .event-tag {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* HERO */
+    .hero { padding: 36px 0 8px; text-align: center; }
+    .hero h1 {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(28px, 7vw, 38px);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -1px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--primary-dark);
+    }
+    .hero p {
+      margin-top: 16px;
+      font-size: 17px;
+      color: var(--text-secondary);
+    }
+
+    /* CTA */
+    .cta-block { padding: 28px 0 12px; text-align: center; }
+    .cta-btn {
+      display: block;
+      width: 100%;
+      padding: 18px 24px;
+      background: var(--primary);
+      color: #fff;
+      font-family: 'Sora', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(196, 168, 130, 0.4);
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .cta-btn:active { transform: scale(0.98); background: var(--primary-dark); }
+    .cta-note {
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* DIVIDER */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 26px 0 8px;
+      color: var(--text-muted);
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* BENEFITS */
+    .benefits { padding: 12px 0 8px; display: grid; gap: 12px; }
+    .benefit {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+    }
+    .benefit .icon {
+      flex-shrink: 0;
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--primary-soft);
+      border-radius: 10px;
+      font-size: 19px;
+    }
+    .benefit h3 {
+      font-family: 'Sora', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .benefit p { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+
+    /* BOTTOM CTA */
+    .bottom-cta {
+      margin: 30px 0 0;
+      background: var(--text-primary);
+      border-radius: 18px;
+      padding: 30px 24px;
+      text-align: center;
+    }
+    .bottom-cta h2 {
+      font-family: 'Sora', sans-serif;
+      font-size: 21px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+    .bottom-cta p { margin-top: 8px; font-size: 14px; color: rgba(255,255,255,0.7); }
+    .bottom-cta .cta-btn { margin-top: 18px; box-shadow: none; }
+
+    footer {
+      padding: 28px 0 36px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    footer a { color: var(--primary-dark); text-decoration: none; font-weight: 500; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .cta-btn { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="wrap">
+    <div class="logo">Self<span>Agenda</span></div>
+    <div class="event-tag">Built for beauty pros</div>
+  </header>
+
+  <section class="hero wrap">
+    <h1>Booking-urile tale, la nivelul <em>skill-urilor tale</em></h1>
+    <p>SelfAgenda — aplicația all-in-one pentru hair stylists: appointments, client list și activitate, totul pe telefonul tău. Fără agendă pe hârtie, fără haos pe WhatsApp.</p>
+  </section>
+
+  <div class="cta-block wrap">
+    <!-- ⬇️ ÎNLOCUIEȘTE href cu linkul tău Tally -->
+    <a class="cta-btn" href="https://tally.so/r/VLxV8a">Completează chestionarul · 2 min</a>
+    <p class="cta-note">9 întrebări scurte. Ne ajuți să construim aplicația potrivită pentru tine. 💛</p>
+  </div>
+
+  <div class="divider wrap">Ce face SelfAgenda</div>
+
+  <section class="benefits wrap">
+    <div class="benefit">
+      <div class="icon">📅</div>
+      <div>
+        <h3>Agenda ta, dintr-o privire</h3>
+        <p>Calendarul mereu la îndemână: ziua, săptămâna, slot-urile libere și zilele blocate — totul clar, fără scroll infinit prin mesaje.</p>
+      </div>
+    </div>
+    <div class="benefit">
+      <div class="icon">💬</div>
+      <div>
+        <h3>Confirmări & remindere pe WhatsApp</h3>
+        <p>Confirmation și reminder trimise cu un singur tap — mai puține no-show-uri, mai puțin timp pierdut în conversații.</p>
+      </div>
+    </div>
+    <div class="benefit">
+      <div class="icon">👥</div>
+      <div>
+        <h3>Client list organizat</h3>
+        <p>Import direct din telefon, istoric complet per client, birthdays la vedere — relații, nu doar programări.</p>
+      </div>
+    </div>
+    <div class="benefit">
+      <div class="icon">📊</div>
+      <div>
+        <h3>Activitatea ta, în cifre</h3>
+        <p>Dashboard cu evoluția pe zile, săptămâni și luni — îți cunoști business-ul fără tabele și calcule pe hârtie.</p>
+      </div>
+    </div>
+    <div class="benefit">
+      <div class="icon">📱</div>
+      <div>
+        <h3>Instant pe orice telefon</h3>
+        <p>Se instalează direct de pe web, fără App Store sau Play Store. Simplu, rapid, mereu cu tine.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="bottom-cta">
+      <h2>2 minute din timpul tău ne ajută enorm</h2>
+      <p>Lasă-ne datele de contact și primești early access, printre primii din România.</p>
+      <!-- ⬇️ ÎNLOCUIEȘTE href cu linkul tău Tally (același link) -->
+      <a class="cta-btn" href="https://tally.so/r/VLxV8a">Începe chestionarul</a>
+    </div>
+  </div>
+
+  <footer class="wrap">
+    SelfAgenda · <a href="https://www.selfagenda.ro">www.selfagenda.ro</a>
+  </footer>
+
+</body>
+</html>

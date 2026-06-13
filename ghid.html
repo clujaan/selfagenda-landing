@@ -1,0 +1,2298 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ghid de utilizare — Self Agenda</title>
+  <meta name="description" content="Ghid complet de utilizare Self Agenda — tot ce trebuie să știi despre funcționalitățile aplicației." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:        #C4A882;
+      --primary-dark:   #A8956B;
+      --primary-soft:   #F2EDE4;
+      --background:     #FAFAF8;
+      --surface:        #FFFFFF;
+      --text-primary:   #2C2825;
+      --text-secondary: #8C7E6E;
+      --text-muted:     #B0A090;
+      --border:         #E8E0D5;
+      --border-strong:  #D4C5B0;
+      --success:        #7A9E7E;
+      --success-soft:   #EEF4EE;
+      --warning:        #C4956A;
+      --error:          #B5706B;
+      --radius:         16px;
+      --radius-sm:      10px;
+      --shadow:         0 1px 3px rgba(44,40,37,0.06), 0 4px 16px rgba(44,40,37,0.07);
+      --shadow-lg:      0 8px 32px rgba(44,40,37,0.12), 0 2px 8px rgba(44,40,37,0.06);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--background);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Sora', sans-serif;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 250, 248, 0.93);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .nav-logo {
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: -0.03em;
+      flex-shrink: 0;
+    }
+
+    .nav-logo span { color: var(--primary); }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      justify-content: flex-end;
+    }
+
+    /* ===== SEARCH ===== */
+    .search-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 340px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    #searchInput {
+      width: 100%;
+      padding: 9px 14px 9px 38px;
+      border: 1.5px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    #searchInput:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(196,168,130,0.15);
+    }
+
+    #searchInput::placeholder { color: var(--text-muted); }
+
+    .search-results {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-lg);
+      z-index: 200;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+
+    .search-results.visible { display: block; }
+
+    .search-result-item {
+      padding: 12px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    .search-result-item:last-child { border-bottom: none; }
+
+    .search-result-item:hover { background: var(--primary-soft); }
+
+    .search-result-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .search-result-section {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .search-result-excerpt {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 3px;
+      line-height: 1.5;
+    }
+
+    .search-no-results {
+      padding: 20px 16px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .nav-cta {
+      background: var(--primary);
+      color: var(--surface);
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 10px 22px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .nav-cta:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+    /* ===== HERO GHID ===== */
+    .guide-hero {
+      background: var(--primary-soft);
+      border-bottom: 1px solid var(--border);
+      padding: 64px 24px 56px;
+      text-align: center;
+    }
+
+    .guide-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface);
+      color: var(--primary-dark);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 16px;
+      border-radius: 999px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border);
+    }
+
+    .guide-hero h1 {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .guide-hero h1 span { color: var(--primary); }
+
+    .guide-hero p {
+      font-size: 17px;
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin: 0 auto;
+      font-weight: 300;
+      line-height: 1.75;
+    }
+
+    /* ===== LAYOUT PRINCIPAL ===== */
+    .guide-layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* ===== SIDEBAR / CUPRINS ===== */
+    .sidebar {
+      position: sticky;
+      top: 80px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 0;
+      box-shadow: var(--shadow);
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+    }
+
+    .sidebar-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      padding: 0 20px 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+
+    .sidebar-nav { list-style: none; }
+
+    .sidebar-nav li a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+      border-left: 2px solid transparent;
+    }
+
+    .sidebar-nav li a:hover {
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+    }
+
+    .sidebar-nav li a.active {
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      border-left-color: var(--primary);
+      font-weight: 600;
+    }
+
+    .sidebar-nav li a .nav-icon { font-size: 15px; flex-shrink: 0; }
+
+    .sidebar-subsection {
+      padding: 6px 20px 6px 44px;
+      font-size: 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: block;
+      transition: color 0.15s;
+    }
+
+    .sidebar-subsection:hover { color: var(--primary-dark); }
+
+    /* ===== CONTINUT GHID ===== */
+    .guide-content { min-width: 0; }
+
+    .guide-section {
+      margin-bottom: 64px;
+      scroll-margin-top: 80px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+
+    .section-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--primary-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .section-label-tag {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--primary);
+    }
+
+    .guide-section h2 {
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .section-intro {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      margin-bottom: 32px;
+      max-width: 640px;
+      font-weight: 300;
+    }
+
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin-bottom: 32px;
+    }
+
+    /* ===== SUBSECTIUNI ===== */
+    .subsection {
+      margin-bottom: 40px;
+      scroll-margin-top: 80px;
+    }
+
+    .subsection h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .subsection h3 .sub-icon { font-size: 16px; }
+
+    .subsection p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      margin-bottom: 12px;
+    }
+
+    .subsection p strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* ===== STEPS ===== */
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 16px 0;
+      position: relative;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      position: relative;
+    }
+
+    .step-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 36px;
+      width: 2px;
+      height: calc(100% - 4px);
+      background: var(--border);
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: var(--surface);
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-body {
+      padding-bottom: 24px;
+      padding-top: 4px;
+    }
+
+    .step-body strong {
+      font-family: 'Sora', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .step-body p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 0;
+    }
+
+    /* ===== TIP BOX ===== */
+    .tip-box {
+      background: var(--primary-soft);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--primary);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    .tip-box strong {
+      color: var(--primary-dark);
+      font-weight: 600;
+    }
+
+    /* ===== WARNING BOX ===== */
+    .warning-box {
+      background: #FFF8F0;
+      border: 1px solid #F0D9B5;
+      border-left: 3px solid var(--warning);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    .warning-box strong { color: var(--warning); font-weight: 600; }
+
+    /* ===== INFO BOX ===== */
+    .info-box {
+      background: var(--success-soft);
+      border: 1px solid #C8DEC8;
+      border-left: 3px solid var(--success);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    .info-box strong { color: var(--success); font-weight: 600; }
+
+    /* ===== PHONE PLACEHOLDER ===== */
+    .screenshot-wrapper {
+      margin: 24px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .phone-frame {
+      width: 220px;
+      height: 450px;
+      background: #1a1a1a;
+      border-radius: 40px;
+      padding: 10px;
+      box-shadow:
+        0 0 0 1px #333,
+        0 24px 64px rgba(44,40,37,0.20),
+        0 6px 20px rgba(44,40,37,0.10);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .phone-frame::before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 64px;
+      height: 5px;
+      background: #2a2a2a;
+      border-radius: 999px;
+      z-index: 10;
+    }
+
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 32px;
+      overflow: hidden;
+      background: var(--primary-soft);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 1.5px dashed var(--border-strong);
+    }
+
+    .phone-screen-placeholder {
+      text-align: center;
+      padding: 16px;
+    }
+
+    .phone-screen-placeholder .placeholder-icon {
+      font-size: 28px;
+      margin-bottom: 10px;
+      display: block;
+      opacity: 0.5;
+    }
+
+    .phone-screen-placeholder p {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    .screenshot-caption {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+      font-style: italic;
+      max-width: 240px;
+    }
+
+    /* ===== SCREENSHOTS SIDE BY SIDE ===== */
+    .screenshots-row {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 24px 0;
+    }
+
+    /* ===== FEATURE LIST ===== */
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .feature-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+    }
+
+    .feature-item-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+    .feature-item-text strong {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .feature-item-text p {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ===== COMPATIBILITY TABLE ===== */
+    .compat-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+
+    .compat-table th {
+      background: var(--primary-soft);
+      font-family: 'Sora', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .compat-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+      vertical-align: middle;
+    }
+
+    .compat-table tr:last-child td { border-bottom: none; }
+    .compat-table tr:hover td { background: var(--primary-soft); }
+
+    .badge-yes {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--success-soft);
+      color: var(--success);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .badge-no {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #FEF2F2;
+      color: var(--error);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    /* ===== FAQ ===== */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    details {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    details summary {
+      padding: 16px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      font-family: 'Sora', sans-serif;
+    }
+
+    details summary::-webkit-details-marker { display: none; }
+
+    details summary::after {
+      content: '+';
+      font-size: 20px;
+      color: var(--text-muted);
+      font-weight: 300;
+      transition: transform 0.2s;
+      flex-shrink: 0;
+      margin-left: 12px;
+    }
+
+    details[open] summary::after { transform: rotate(45deg); }
+    details[open] { border-color: var(--border-strong); }
+
+    details .faq-answer {
+      padding: 0 20px 16px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--text-primary);
+      color: var(--text-secondary);
+      text-align: center;
+      padding: 40px 24px;
+      font-size: 13px;
+    }
+
+    footer a { color: var(--border-strong); text-decoration: none; }
+    footer a:hover { color: var(--surface); }
+
+    .footer-logo {
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--surface);
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+
+    .footer-logo span { color: var(--primary); }
+
+    /* ===== HIGHLIGHT ===== */
+    .highlight { background: rgba(196,168,130,0.25); border-radius: 3px; padding: 1px 3px; }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .guide-hero-badge { animation: fadeUp 0.4s ease both; }
+    .guide-hero h1    { animation: fadeUp 0.4s ease both 0.1s; }
+    .guide-hero p     { animation: fadeUp 0.4s ease both 0.2s; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 860px) {
+      .guide-layout {
+        grid-template-columns: 1fr;
+        padding: 24px 16px 64px;
+      }
+
+      .sidebar {
+        position: static;
+        max-height: none;
+      }
+
+      .nav-right { gap: 8px; }
+      .search-wrapper { max-width: 200px; }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 16px; }
+      .nav-cta { display: none; }
+      .search-wrapper { max-width: 180px; }
+      .phone-frame { width: 180px; height: 370px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Self<span>Agenda</span></a>
+  <div class="nav-right">
+    <div class="search-wrapper">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Caută în ghid..." autocomplete="off" />
+      <div class="search-results" id="searchResults"></div>
+    </div>
+    <a href="index.html#preturi" class="nav-cta">Abonează-te</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="guide-hero">
+  <div class="guide-hero-badge">📖 Ghid complet de utilizare</div>
+  <h1>Tot ce trebuie să știi despre<br><span>Self Agenda</span></h1>
+  <p>Găsești răspuns la orice întrebare despre funcționalitățile aplicației. Folosește bara de căutare sau cuprinsul din stânga pentru a naviga rapid.</p>
+</div>
+
+<!-- LAYOUT PRINCIPAL -->
+<div class="guide-layout">
+
+  <!-- SIDEBAR CUPRINS -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Cuprins</div>
+    <ul class="sidebar-nav">
+      <li><a href="#introducere" class="nav-link"><span class="nav-icon">👋</span> Introducere</a></li>
+      <li><a href="#instalare" class="nav-link"><span class="nav-icon">📱</span> Instalare PWA</a></li>
+      <li><a href="#cont" class="nav-link"><span class="nav-icon">🔑</span> Crearea contului</a></li>
+      <li><a href="#onboarding" class="nav-link"><span class="nav-icon">✨</span> Onboarding</a></li>
+      <li>
+        <a href="#calendar" class="nav-link"><span class="nav-icon">📅</span> Calendar</a>
+        <a href="#calendar-navigare" class="sidebar-subsection">↳ Navigare</a>
+        <a href="#calendar-blocari" class="sidebar-subsection">↳ Zile blocate</a>
+        <a href="#calendar-nastere" class="sidebar-subsection">↳ Zile de naștere</a>
+        <a href="#calendar-istoric" class="sidebar-subsection">↳ Istoric programări</a>
+      </li>
+      <li>
+        <a href="#programari" class="nav-link"><span class="nav-icon">🗓️</span> Programări</a>
+        <a href="#programari-adaugare" class="sidebar-subsection">↳ Adăugare</a>
+        <a href="#programari-whatsapp" class="sidebar-subsection">↳ WhatsApp</a>
+        <a href="#programari-costuri" class="sidebar-subsection">↳ Costuri materiale</a>
+        <a href="#programari-multiple" class="sidebar-subsection">↳ Multiple</a>
+      </li>
+      <li>
+        <a href="#contacte" class="nav-link"><span class="nav-icon">👥</span> Contacte</a>
+        <a href="#contacte-import" class="sidebar-subsection">↳ Import</a>
+        <a href="#contacte-stergere" class="sidebar-subsection">↳ Ștergere & recuperare</a>
+      </li>
+      <li><a href="#servicii" class="nav-link"><span class="nav-icon">🛠️</span> Servicii</a></li>
+      <li>
+        <a href="#dashboard" class="nav-link"><span class="nav-icon">💰</span> Dashboard</a>
+        <a href="#dashboard-export" class="sidebar-subsection">↳ Export CSV</a>
+      </li>
+      <li><a href="#balanta" class="nav-link"><span class="nav-icon">📊</span> Balanță & Cheltuieli</a></li>
+      <li><a href="#setari" class="nav-link"><span class="nav-icon">⚙️</span> Setări</a></li>
+      <li><a href="#faq" class="nav-link"><span class="nav-icon">❓</span> Întrebări frecvente</a></li>
+    </ul>
+  </aside>
+
+  <!-- CONTINUT -->
+  <main class="guide-content">
+
+    <!-- 1. INTRODUCERE -->
+    <section class="guide-section" id="introducere">
+      <div class="section-label-tag">01 · Introducere</div>
+      <div class="section-header">
+        <div class="section-icon">👋</div>
+        <h2>Bun venit în Self Agenda</h2>
+      </div>
+      <p class="section-intro">Self Agenda este agenda ta digitală pensată special pentru freelanceri independenți din orice domeniu. Gestionezi programările, contactele și veniturile dintr-un singur loc, simplu și rapid.</p>
+      <hr class="section-divider" />
+
+      <div class="subsection">
+        <h3><span class="sub-icon">🎯</span> Ce este Self Agenda?</h3>
+        <p>Self Agenda este o aplicație web de tip <strong>PWA (Progressive Web App)</strong> — ceea ce înseamnă că funcționează direct din browser, fără să fie nevoie să o descarci din App Store sau Google Play. O poți instala pe ecranul principal al telefonului și o vei folosi exact ca pe orice altă aplicație nativă.</p>
+        <div class="tip-box">
+          <strong>💡 De reținut:</strong> Aplicația funcționează pe orice dispozitiv — telefon, tabletă sau calculator — atâta timp cât ai un browser și conexiune la internet.
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">✅</span> Ce poți face cu Self Agenda?</h3>
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="feature-item-icon">📅</span>
+            <div class="feature-item-text">
+              <strong>Gestionezi programările</strong>
+              <p>Adaugi, editezi, reprogramezi și anulezi programări direct din calendar.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">👥</span>
+            <div class="feature-item-text">
+              <strong>Ții evidența contactelor</strong>
+              <p>Istoricul complet al fiecărui contact — servicii, programări, note personale.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">💬</span>
+            <div class="feature-item-text">
+              <strong>Trimiți confirmări pe WhatsApp</strong>
+              <p>Cu un singur tap, mesajul de confirmare sau reminder e gata de trimis.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">💰</span>
+            <div class="feature-item-text">
+              <strong>Urmărești activitatea financiară</strong>
+              <p>Dashboard cu statistici pe zi, săptămână, lună și an.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">📊</span>
+            <div class="feature-item-text">
+              <strong>Gestionezi cheltuielile (modul opțional)</strong>
+              <p>Balanță lunară cu venituri, cheltuieli fixe și variabile.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. INSTALARE PWA -->
+    <section class="guide-section" id="instalare">
+      <div class="section-label-tag">02 · Instalare</div>
+      <div class="section-header">
+        <div class="section-icon">📱</div>
+        <h2>Instalare pe telefon (PWA)</h2>
+      </div>
+      <p class="section-intro">Self Agenda poate fi instalată pe telefonul tău ca o aplicație obișnuită, fără App Store sau Google Play. Procesul durează sub 30 de secunde.</p>
+      <hr class="section-divider" />
+
+      <div class="subsection" id="instalare-iphone">
+        <h3><span class="sub-icon">🍎</span> Instalare pe iPhone (Safari)</h3>
+        <div class="warning-box">
+          <strong>⚠️ Atenție:</strong> Pe iPhone funcționează <strong>doar din Safari</strong>. Din Chrome, Firefox sau alte browsere pe iOS instalarea PWA nu este disponibilă.
+        </div>
+        <div class="steps-list">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Deschide Safari și accesează self-agenda.vercel.app</strong>
+              <p>Asigură-te că ești logat în aplicație înainte de a instala.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Apasă butonul Share (Distribuie)</strong>
+              <p>Este butonul cu săgeată în sus din bara de jos a Safari-ului.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Selectează „Adaugă la ecranul principal"</strong>
+              <p>Derulează în jos în meniu până găsești această opțiune și apas-o.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <strong>Confirmă cu „Adaugă"</strong>
+              <p>Aplicația apare acum pe ecranul principal al telefonului, ca orice altă aplicație.</p>
+            </div>
+          </div>
+        </div>
+        <div class="screenshots-row">
+          <div>
+            <div class="phone-frame">
+              <div class="phone-screen">
+                <div class="phone-screen-placeholder">
+                  <span class="placeholder-icon">📸</span>
+                  <p>[Screenshot: butonul Share în Safari]</p>
+                </div>
+              </div>
+            </div>
+            <p class="screenshot-caption">Butonul Share din Safari</p>
+          </div>
+          <div>
+            <div class="phone-frame">
+              <div class="phone-screen">
+                <div class="phone-screen-placeholder">
+                  <span class="placeholder-icon">📸</span>
+                  <p>[Screenshot: opțiunea „Adaugă la ecranul principal"]</p>
+                </div>
+              </div>
+            </div>
+            <p class="screenshot-caption">Opțiunea din meniu</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection" id="instalare-android">
+        <h3><span class="sub-icon">🤖</span> Instalare pe Android (Chrome)</h3>
+        <div class="warning-box">
+          <strong>⚠️ Atenție:</strong> Pe Android funcționează cel mai bine din <strong>Google Chrome</strong>. Din Brave sau Firefox instalarea PWA poate fi blocată.
+        </div>
+        <div class="steps-list">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Deschide Chrome și accesează self-agenda.vercel.app</strong>
+              <p>Asigură-te că ești logat în aplicație.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Apasă pe bannerul de instalare care apare automat</strong>
+              <p>Chrome afișează automat un banner în partea de jos cu „Instalează Self Agenda". Dacă nu apare, continuă cu pasul următor.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Alternativ: meniu → „Adaugă pe ecranul principal"</strong>
+              <p>Apasă cele 3 puncte din dreapta sus → „Adaugă pe ecranul principal".</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <strong>Confirmă instalarea</strong>
+              <p>Aplicația apare acum în lista de aplicații și pe ecranul principal.</p>
+            </div>
+          </div>
+        </div>
+        <div class="screenshot-wrapper">
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <div class="phone-screen-placeholder">
+                <span class="placeholder-icon">📸</span>
+                <p>[Screenshot: banner instalare Android Chrome]</p>
+              </div>
+            </div>
+          </div>
+          <p class="screenshot-caption">Bannerul de instalare pe Android Chrome</p>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">💻</span> Utilizare pe desktop / laptop</h3>
+        <p>Nu trebuie să instalezi nimic pe calculator. Accesezi <strong>self-agenda.vercel.app</strong> din orice browser și aplicația funcționează complet. Poți folosi Chrome, Safari, Firefox, Edge — oricare dintre ele.</p>
+        <div class="tip-box">
+          <strong>💡 Sfat:</strong> Dacă folosești aplicația zilnic de pe calculator, adaugă pagina la Favorite pentru acces rapid.
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">📊</span> Compatibilitate completă</h3>
+        <table class="compat-table">
+          <thead>
+            <tr>
+              <th>Platformă</th>
+              <th>Browser</th>
+              <th>Instalare PWA</th>
+              <th>Import contacte</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>iPhone</td>
+              <td>Safari</td>
+              <td><span class="badge-yes">✓ Da</span></td>
+              <td>Fișier .vcf</td>
+            </tr>
+            <tr>
+              <td>iPhone</td>
+              <td>Chrome / Firefox</td>
+              <td><span class="badge-no">✗ Nu</span></td>
+              <td>Fișier .vcf</td>
+            </tr>
+            <tr>
+              <td>Android</td>
+              <td>Chrome</td>
+              <td><span class="badge-yes">✓ Da</span></td>
+              <td>Direct din agendă</td>
+            </tr>
+            <tr>
+              <td>Android</td>
+              <td>Brave / Firefox</td>
+              <td><span class="badge-no">✗ Nu</span></td>
+              <td>Fișier .vcf</td>
+            </tr>
+            <tr>
+              <td>Desktop</td>
+              <td>Orice browser</td>
+              <td><span class="badge-yes">✓ Da</span></td>
+              <td>Fișier .vcf</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 3. CREAREA CONTULUI -->
+    <section class="guide-section" id="cont">
+      <div class="section-label-tag">03 · Cont</div>
+      <div class="section-header">
+        <div class="section-icon">🔑</div>
+        <h2>Crearea contului</h2>
+      </div>
+      <p class="section-intro">Accesul în Self Agenda se face pe baza unui abonament activ. După plată, primești un email cu un link pentru a-ți seta parola și a-ți activa contul.</p>
+      <hr class="section-divider" />
+
+      <div class="subsection">
+        <h3><span class="sub-icon">📧</span> Cum primești accesul</h3>
+        <div class="steps-list">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Alegi planul pe selfagenda.ro</strong>
+              <p>Introduci adresa de email și selectezi planul dorit (lunar, 6 luni sau 12 luni).</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Plătești cu cardul</strong>
+              <p>Ești redirecționat la pagina de plată Stripe — sigură și criptată.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Primești emailul de activare</strong>
+              <p>Imediat după plată, primești un email de la noreply@selfagenda.ro cu un link pentru setarea parolei.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <strong>Setezi parola și te loghezi</strong>
+              <p>Apeși linkul din email, introduci parola dorită și ești redirecționat automat în aplicație.</p>
+            </div>
+          </div>
+        </div>
+        <div class="tip-box">
+          <strong>💡 Nu ai primit emailul?</strong> Verifică folderul Spam / Junk. Dacă nu îl găsești nici acolo, contactează-ne la contact@selfagenda.ro.
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">🔒</span> Cerințe parolă</h3>
+        <p>Parola ta trebuie să respecte câteva reguli minime de securitate:</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="feature-item-icon">✅</span>
+            <div class="feature-item-text">
+              <strong>Minim 8 caractere</strong>
+              <p>Cu cât mai lungă, cu atât mai sigură.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">✅</span>
+            <div class="feature-item-text">
+              <strong>Cel puțin o literă mare</strong>
+              <p>Ex: A, B, C...</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">✅</span>
+            <div class="feature-item-text">
+              <strong>Cel puțin o cifră</strong>
+              <p>Ex: 1, 2, 3...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">🔄</span> Ai uitat parola?</h3>
+        <div class="steps-list">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Pe pagina de login, apasă „Am uitat parola"</strong>
+              <p>Se afișează un câmp pentru adresa de email.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Introduci emailul și apeși „Trimite link resetare"</strong>
+              <p>Primești un email cu un link de resetare valabil 24 de ore.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Apeși linkul din email și introduci parola nouă</strong>
+              <p>Ești redirecționat automat în aplicație după resetare.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. ONBOARDING -->
+    <section class="guide-section" id="onboarding">
+      <div class="section-label-tag">04 · Onboarding</div>
+      <div class="section-header">
+        <div class="section-icon">✨</div>
+        <h2>Primul pas în aplicație</h2>
+      </div>
+      <p class="section-intro">La prima logare, aplicația te ghidează printr-un flux scurt de configurare inițială. Durează mai puțin de 2 minute.</p>
+      <hr class="section-divider" />
+
+      <div class="subsection">
+        <h3><span class="sub-icon">👤</span> Pasul 1 — Numele tău</h3>
+        <p>Introduci <strong>prenumele</strong> și <strong>numele</strong> tău. Nu sunt obligatorii ambele — poți folosi doar prenumele dacă preferi. Aceste date apar în profilul tău și în mesajele WhatsApp trimise contactelor.</p>
+        <div class="screenshot-wrapper">
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <div class="phone-screen-placeholder">
+                <span class="placeholder-icon">📸</span>
+                <p>[Screenshot: ecranul de introducere nume — Pasul 1 Onboarding]</p>
+              </div>
+            </div>
+          </div>
+          <p class="screenshot-caption">Pasul 1 — Completarea numelui</p>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">🎨</span> Pasul 2 — Tema de culori</h3>
+        <p>Alegi una din cele <strong>6 palete de culori</strong> disponibile. La selectare, tema se aplică instant — vezi schimbarea live înainte să confirmi. Poți schimba tema oricând ulterior din <strong>Setări</strong>.</p>
+        <div class="screenshot-wrapper">
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <div class="phone-screen-placeholder">
+                <span class="placeholder-icon">📸</span>
+                <p>[Screenshot: ecranul de selectare temă culori — Pasul 2 Onboarding]</p>
+              </div>
+            </div>
+          </div>
+          <p class="screenshot-caption">Pasul 2 — Alegerea temei de culori</p>
+        </div>
+        <div class="tip-box">
+          <strong>💡 Sfat:</strong> După onboarding ești redirecționat automat la secțiunea <strong>Servicii</strong> — primul lucru recomandat este să adaugi serviciile pe care le oferi, cu prețul și durata fiecăruia.
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. CALENDAR -->
+    <section class="guide-section" id="calendar">
+      <div class="section-label-tag">05 · Calendar</div>
+      <div class="section-header">
+        <div class="section-icon">📅</div>
+        <h2>Calendar</h2>
+      </div>
+      <p class="section-intro">Calendarul este pagina principală a aplicației. De aici gestionezi toate programările, vezi zilele blocate, sărbătorile legale și zilele de naștere ale contactelor.</p>
+      <hr class="section-divider" />
+
+      <div class="subsection" id="calendar-navigare">
+        <h3><span class="sub-icon">🔍</span> Navigare în calendar</h3>
+        <p>Calendarul afișează luna curentă în format grid (Luni → Duminică). Navighezi între luni cu săgețile <strong>←</strong> și <strong>→</strong> din header.</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="feature-item-icon">🔵</span>
+            <div class="feature-item-text">
+              <strong>Dot sub dată</strong>
+              <p>Indică că ziua respectivă are cel puțin o programare activă (nu anulată).</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">🔴</span>
+            <div class="feature-item-text">
+              <strong>Bordură roșie pe dată</strong>
+              <p>Indică o sărbătoare legală. La click pe zi apare numele sărbătorii.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">🚫</span>
+            <div class="feature-item-text">
+              <strong>Iconița 🚫 în colțul zilei</strong>
+              <p>Ziua este blocată integral — ai marcat-o ca zi liberă sau concediu.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">⚠️</span>
+            <div class="feature-item-text">
+              <strong>Iconița ⚠️ în colțul zilei</strong>
+              <p>Ziua are un interval orar blocat — ești disponibil doar parțial.</p>
+            </div>
+          </div>
+        </div>
+        <div class="screenshot-wrapper">
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <div class="phone-screen-placeholder">
+                <span class="placeholder-icon">📸</span>
+                <p>[Screenshot: vedere lunară calendar cu indicatori vizuali]</p>
+              </div>
+            </div>
+          </div>
+          <p class="screenshot-caption">Calendarul lunar cu indicatori vizuali</p>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">📋</span> Programările zilei</h3>
+        <p>Dai click pe orice zi din calendar pentru a vedea programările acelei zile în panoul din dreapta (sau dedesubt pe mobil). Fiecare card de programare afișează <strong>ora, contactul, serviciul, prețul și statusul</strong>.</p>
+        <p>Apeși pe un card de programare pentru a vedea toate detaliile și a efectua acțiuni (editare, finalizare, anulare, WhatsApp etc.).</p>
+        <div class="screenshot-wrapper">
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <div class="phone-screen-placeholder">
+                <span class="placeholder-icon">📸</span>
+                <p>[Screenshot: lista programărilor unei zile selectate]</p>
+              </div>
+            </div>
+          </div>
+          <p class="screenshot-caption">Programările zilei selectate</p>
+        </div>
+      </div>
+
+      <div class="subsection" id="calendar-blocari">
+        <h3><span class="sub-icon">🚫</span> Zile blocate</h3>
+        <p>Poți marca zilele în care ești indisponibil — concediu, zile libere sau ore cu altă destinație. Blocările apar vizual în calendar și previn suprapunerea cu programările existente.</p>
+        <p>Apeși butonul <strong>🚫 Blochează zile</strong> din headerul calendarului pentru a deschide modalul de gestionare blocări.</p>
+
+        <h3 style="margin-top: 24px;"><span class="sub-icon">📆</span> Blocare zi întreagă</h3>
+        <div class="steps-list">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Deschide modalul de blocări</strong>
+              <p>Apasă butonul 🚫 din headerul calendarului.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Selectează una sau mai multe zile</strong>
+              <p>Dai click pe zilele dorite din calendar — se pot selecta mai multe zile simultan.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Alege tipul „Zi întreagă"</strong>
+              <p>Selectează opțiunea „Zi întreagă" din selector.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <strong>Adaugă un motiv (opțional) și salvează</strong>
+              <p>Ex: „Concediu", „Doctor". Apasă „Salvează" — zilele apar cu 🚫 în calendar.</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin-top: 24px;"><span class="sub-icon">⏰</span> Blocare interval orar</h3>
+        <div class="steps-list">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Selectează ziua / zilele și tipul „Ore specifice"</strong>
+              <p>Alege opțiunea „Ore specifice" din selector.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Setează ora de start și ora de end</strong>
+              <p>Ex: 09:00 – 12:00. Intervalul ales va fi marcat ca indisponibil.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Salvează</strong>
+              <p>Ziua apare cu ⚠️ în calendar — ești disponibil parțial.</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin-top: 24px;"><span class="sub-icon">🗑️</span> Ștergere blocare</h3>
+        <p>În modalul de blocări, în secțiunea „Blocări existente", fiecare înregistrare are un buton 🗑 pentru ștergere individuală.</p>
+
+        <div class="screenshot-wrapper">
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <div class="phone-screen-placeholder">
+                <span class="placeholder-icon">📸</span>
+                <p>[Screenshot: modal gestionare zile blocate]</p>
+              </div>
+            </div>
+          </div>
+          <p class="screenshot-caption">Modalul de gestionare zile blocate</p>
+        </div>
+      </div>
+
+      <div class="subsection" id="calendar-nastere">
+        <h3><span class="sub-icon">🎂</span> Zile de naștere</h3>
+        <p>Self Agenda îți amintește automat zilele de naștere ale contactelor tale. În ziua respectivă și în următoarele 7 zile, aplicația afișează un reminder vizibil în panoul calendarului.</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="feature-item-icon">🎉</span>
+            <div class="feature-item-text">
+              <strong>Reminder ziua de naștere</strong>
+              <p>Contactele cu ziua de naștere azi sunt afișate vizibil deasupra listei de programări.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">📅</span>
+            <div class="feature-item-text">
+              <strong>Zile de naștere următoare</strong>
+              <p>Contactele cu ziua de naștere în următoarele 7 zile apar în secțiunea „Upcoming".</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">💬</span>
+            <div class="feature-item-text">
+              <strong>Mesaj „La mulți ani" pe WhatsApp</strong>
+              <p>Apasă butonul de WhatsApp de lângă contact — mesajul de felicitare e gata, tu doar trimiți.</p>
+            </div>
+          </div>
+        </div>
+        <div class="tip-box">
+          <strong>💡 Cum adaugi data nașterii?</strong> Data nașterii se introduce în fișa contactului, din secțiunea <strong>Contacte → Editează contact → câmpul „Data nașterii"</strong>.
+        </div>
+      </div>
+
+      <div class="subsection" id="calendar-istoric">
+        <h3><span class="sub-icon">📋</span> Istoricul global al programărilor</h3>
+        <p>Butonul <strong>📋</strong> din headerul calendarului (lângă titlul lunii) deschide o fereastră cu <strong>toate programările tale</strong>, indiferent de lună.</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="feature-item-icon">🔍</span>
+            <div class="feature-item-text">
+              <strong>Căutare după contact</strong>
+              <p>Scrii numele contactului și rezultatele apar automat după 400ms.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">📊</span>
+            <div class="feature-item-text">
+              <strong>Filtrare după status</strong>
+              <p>Poți filtra: Programat, Finalizat, Plătit, Anulat — selectezi unul sau mai multe.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">🗓️</span>
+            <div class="feature-item-text">
+              <strong>Filtrare după perioadă</strong>
+              <p>Ultima lună, 3 luni, 6 luni, ultimul an sau toate programările.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">📄</span>
+            <div class="feature-item-text">
+              <strong>Paginare</strong>
+              <p>Rezultatele sunt afișate câte 20 per pagină. Navighezi cu butoanele Anterior / Următor.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. PROGRAMARI -->
+    <section class="guide-section" id="programari">
+      <div class="section-label-tag">06 · Programări</div>
+      <div class="section-header">
+        <div class="section-icon">🗓️</div>
+        <h2>Programări</h2>
+      </div>
+      <p class="section-intro">Programările sunt nucleul aplicației. Le adaugi direct din calendar, le gestionezi complet și le confirmi pe WhatsApp cu un singur tap.</p>
+      <hr class="section-divider" />
+
+      <div class="subsection" id="programari-adaugare">
+        <h3><span class="sub-icon">➕</span> Adăugare programare nouă</h3>
+        <p>Apasă butonul <strong>+</strong> din headerul calendarului sau direct pe o zi liberă. Procesul se face în <strong>3 pași simpli</strong>:</p>
+        <div class="steps-list">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Alegi contactul</strong>
+              <p>Cauți după nume în lista de contacte. Dacă nu există, poți adăuga un contact nou rapid direct din acest pas.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Alegi serviciul</strong>
+              <p>Selectezi din lista serviciilor active. Poți căuta după nume. Prețul și durata se completează automat.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Alegi data, ora și adaugi o notă (opțional)</strong>
+              <p>Aplicația calculează automat ora de final în funcție de durata serviciului. Sunt afișate avertismente dacă ora a trecut sau dacă există suprapuneri.</p>
+            </div>
+          </div>
+        </div>
+        <div class="screenshots-row">
+          <div>
+            <div class="phone-frame">
+              <div class="phone-screen">
+                <div class="phone-screen-placeholder">
+                  <span class="placeholder-icon">📸</span>
+                  <p>[Screenshot: Pasul 1 — selectare contact]</p>
+                </div>
+              </div>
+            </div>
+            <p class="screenshot-caption">Pasul 1 — Contact</p>
+          </div>
+          <div>
+            <div class="phone-frame">
+              <div class="phone-screen">
+                <div class="phone-screen-placeholder">
+                  <span class="placeholder-icon">📸</span>
+                  <p>[Screenshot: Pasul 3 — selectare dată și oră]</p>
+                </div>
+              </div>
+            </div>
+            <p class="screenshot-caption">Pasul 3 — Dată și oră</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">✏️</span> Editare programare</h3>
+        <p>Dai click pe o programare din lista zilei → se deschide fereastra de detalii → apasă butonul <strong>✏️ Editează</strong>. La editare, toate câmpurile sunt disponibile simultan (fără pași).</p>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">🔄</span> Reprogramare</h3>
+        <p>Din fereastra de detalii a programării, apasă <strong>🔄 Reprogramează</strong>. Vei fi dus direct la pasul 3 (dată și oră) — contactul și serviciul rămân neschimbate.</p>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">✅</span> Statusuri programare</h3>
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="feature-item-icon">🔵</span>
+            <div class="feature-item-text">
+              <strong>Programat</strong>
+              <p>Starea inițială a oricărei programări noi.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">🟢</span>
+            <div class="feature-item-text">
+              <strong>Finalizat</strong>
+              <p>Programarea a avut loc dar nu a fost încasată încă.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">🟡</span>
+            <div class="feature-item-text">
+              <strong>Plătit</strong>
+              <p>Programarea a avut loc și suma a fost încasată.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">🔴</span>
+            <div class="feature-item-text">
+              <strong>Anulat</strong>
+              <p>Programarea a fost anulată. Se înregistrează automat la istoricul de anulări al contactului.</p>
+            </div>
+          </div>
+        </div>
+        <div class="tip-box">
+          <strong>💡 Sfat:</strong> Programările cu statusul „Finalizat" (neplătite) apar ca reminder în Dashboard — nu uita să le marchezi ca plătite după ce încasezi.
+        </div>
+      </div>
+
+      <div class="subsection" id="programari-whatsapp">
+        <h3><span class="sub-icon">💬</span> Confirmare și reminder WhatsApp</h3>
+        <p>Din fereastra de detalii a oricărei programări, apasă butonul <strong>💬 WhatsApp</strong>. Apare un mini-meniu cu 2 opțiuni:</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="feature-item-icon">✅</span>
+            <div class="feature-item-text">
+              <strong>Confirmare programare</strong>
+              <p>Trimite un mesaj de confirmare cu data, ora și serviciul. Perfect pentru programările noi.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">⏰</span>
+            <div class="feature-item-text">
+              <strong>Reminder programare</strong>
+              <p>Trimite un reminder cu ziua și ora programării. Perfect cu o zi înainte.</p>
+            </div>
+          </div>
+        </div>
+        <p>Aplicația deschide automat conversația WhatsApp cu contactul respectiv și completează mesajul. Tu doar apeși <strong>Trimite</strong>.</p>
+        <div class="warning-box">
+          <strong>⚠️ Atenție:</strong> Contactul trebuie să aibă un număr de telefon salvat pentru ca butonul WhatsApp să funcționeze. Contactele fără telefon sunt afișate cu numele în roșu în calendar.
+        </div>
+      </div>
+
+      <div class="subsection" id="programari-costuri">
+        <h3><span class="sub-icon">🧾</span> Costuri materiale per programare</h3>
+        <p>Poți adăuga costurile materialelor folosite la o programare (vopsea, produse, materiale etc.). Aceste costuri sunt separate de prețul serviciului și te ajută să calculezi profitul real.</p>
+        <div class="steps-list">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Deschide detaliile programării</strong>
+              <p>Dai click pe programare din lista zilei.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Secțiunea „Costuri materiale" → butonul +</strong>
+              <p>Adaugi numele materialului și suma. Poți adăuga maxim 10 costuri per programare.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Aplicația calculează automat totalul</strong>
+              <p>Prețul serviciului + costurile materiale = total afișat în detalii.</p>
+            </div>
+          </div>
+        </div>
+        <p>Dacă ai costuri materiale adăugate, apare și butonul <strong>💬 Cost final WhatsApp</strong> — trimite contactului un mesaj detaliat cu lista materialelor și totalul de plată.</p>
+      </div>
+
+      <div class="subsection" id="programari-multiple">
+        <h3><span class="sub-icon">🔁</span> Programări multiple (Multi-booking)</h3>
+        <p>Funcția de multi-booking îți permite să adaugi același contact pe mai multe zile simultan, la aceeași oră. Utilă pentru ședințe recurente (ex: tratamente săptămânale).</p>
+        <div class="steps-list">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Apasă butonul „Multi-booking" din calendar</strong>
+              <p>Se deschide un modal în 3 pași.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Selectezi contactul și serviciul</strong>
+              <p>Pașii 1 și 2 — la fel ca la o programare normală.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Selectezi ora și zilele dorite</strong>
+              <p>Dai click pe mai multe zile din calendar. Zilele din trecut sunt dezactivate automat.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <strong>Aplicația detectează conflictele automat</strong>
+              <p>Dacă unele zile au conflicte (programări existente sau blocări), ești întrebat dacă vrei să salvezi doar zilele fără conflict.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. CONTACTE -->
+    <section class="guide-section" id="contacte">
+      <div class="section-label-tag">07 · Contacte</div>
+      <div class="section-header">
+        <div class="section-icon">👥</div>
+        <h2>Contacte</h2>
+      </div>
+      <p class="section-intro">Secțiunea Contacte conține lista completă a tuturor persoanelor cu care lucrezi. Poți adăuga contacte manual, le poți importa din agenda telefonului sau dintr-un fișier .vcf.</p>
+      <hr class="section-divider" />
+
+      <div class="subsection">
+        <h3><span class="sub-icon">➕</span> Adăugare contact manual</h3>
+        <p>Apasă butonul <strong>+ Contact nou</strong> din pagina Contacte. Câmpurile disponibile:</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="feature-item-icon">👤</span>
+            <div class="feature-item-text">
+              <strong>Prenume și Nume</strong>
+              <p>Cel puțin unul din cele două este obligatoriu.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">📱</span>
+            <div class="feature-item-text">
+              <strong>Număr de telefon</strong>
+              <p>Acceptă orice format: cifre, +, -, spații, paranteze. Maxim 15 cifre.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">🎂</span>
+            <div class="feature-item-text">
+              <strong>Data nașterii</strong>
+              <p>Opțional — folosită pentru remindere zile de naștere în calendar.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">📝</span>
+            <div class="feature-item-text">
+              <strong>Notițe</strong>
+              <p>Orice informație suplimentară despre contact (alergii, preferințe, etc.).</p>
+            </div>
+          </div>
+        </div>
+        <div class="tip-box">
+          <strong>💡 Detecție duplicate:</strong> Dacă adaugi un contact cu același nume sau număr de telefon ca unul existent, aplicația te avertizează. Poți salva oricum dacă e intenționat.
+        </div>
+      </div>
+
+      <div class="subsection" id="contacte-import">
+        <h3><span class="sub-icon">📲</span> Import contacte din agendă (Android Chrome)</h3>
+        <p>Pe Android Chrome poți importa contacte direct din agenda telefonului, fără fișiere intermediare.</p>
+        <div class="steps-list">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Apasă „Importă contacte"</strong>
+              <p>Butonul se află în pagina Contacte.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Acordă permisiunea de acces la contacte</strong>
+              <p>Browserul îți cere confirmare prima dată.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Selectezi unul sau mai multe contacte din agendă</strong>
+              <p>Dai confirmarea și datele se completează automat în formular.</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin-top: 24px;"><span class="sub-icon">📄</span> Import din fișier .vcf (iPhone / Desktop)</h3>
+        <p>Pe iPhone (Safari) și pe desktop, importul se face printr-un fișier <strong>.vcf</strong> exportat din aplicația de contacte a telefonului.</p>
+        <div class="steps-list">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Exporti contactul din aplicația Contacte a telefonului</strong>
+              <p>Pe iPhone: Contacte → selectezi contactul → „Distribuie contact" → salvezi fișierul .vcf.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>În Self Agenda, apasă „Importă fișier .vcf"</strong>
+              <p>Selectezi fișierul salvat. Datele se completează automat în formular.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Verifici și salvezi</strong>
+              <p>Poți corecta orice câmp înainte de a salva contactul.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">📋</span> Istoricul programărilor unui contact</h3>
+        <p>Din fișa de editare a unui contact, apasă butonul <strong>📋 Istoric</strong> din colțul dreapta sus. Se deschide un modal cu toate programările contactului respectiv, împărțite în:</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="feature-item-icon">📅</span>
+            <div class="feature-item-text">
+              <strong>Programări viitoare</strong>
+              <p>Programările cu dată în viitor și status activ.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">📁</span>
+            <div class="feature-item-text">
+              <strong>Istoric</strong>
+              <p>Toate programările trecute sau anulate.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection" id="contacte-stergere">
+        <h3><span class="sub-icon">🗑️</span> Ștergerea unui contact</h3>
+        <p>Apasă butonul 🗑️ de pe cardul contactului sau din fișa de editare.</p>
+        <div class="warning-box">
+          <strong>⚠️ Important:</strong> Un contact <strong>nu poate fi șters</strong> dacă are programări active (cu status diferit de „Anulat"). Trebuie mai întâi să anulezi sau să finalizezi programările active.
+        </div>
+        <p>Ștergerea este un <strong>soft delete</strong> — contactul nu dispare definitiv, ci merge în <strong>Coșul de gunoi</strong> și poate fi recuperat timp de 30 de zile.</p>
+
+        <h3 style="margin-top: 24px;"><span class="sub-icon">♻️</span> Coșul de gunoi — recuperare contacte</h3>
+        <p>La finalul paginii Contacte, apasă <strong>„Contacte șterse"</strong> pentru a vedea lista contactelor din coș. Pentru fiecare contact ai două opțiuni:</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="feature-item-icon">↩️</span>
+            <div class="feature-item-text">
+              <strong>Recuperează</strong>
+              <p>Contactul revine în lista activă cu toate datele intacte.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">💥</span>
+            <div class="feature-item-text">
+              <strong>Șterge permanent</strong>
+              <p>Contactul este șters definitiv din baza de date. Această acțiune este ireversibilă.</p>
+            </div>
+          </div>
+        </div>
+        <div class="warning-box">
+          <strong>⚠️ Atenție:</strong> După 30 de zile în coș, contactele sunt șterse automat permanent și nu mai pot fi recuperate.
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. SERVICII -->
+    <section class="guide-section" id="servicii">
+      <div class="section-label-tag">08 · Servicii</div>
+      <div class="section-header">
+        <div class="section-icon">🛠️</div>
+        <h2>Servicii</h2>
+      </div>
+      <p class="section-intro">Serviciile sunt baza oricărei programări. Înainte de a adăuga prima programare, adaugă cel puțin un serviciu cu prețul și durata lui.</p>
+      <hr class="section-divider" />
+
+      <div class="subsection">
+        <h3><span class="sub-icon">➕</span> Adăugare serviciu</h3>
+        <p>Din pagina Servicii, apasă <strong>+ Serviciu nou</strong>. Câmpurile disponibile:</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="feature-item-icon">📝</span>
+            <div class="feature-item-text">
+              <strong>Nume serviciu</strong>
+              <p>Ex: „Tunsoare", „Masaj relaxare", „Ședință foto".</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">💰</span>
+            <div class="feature-item-text">
+              <strong>Preț (RON)</strong>
+              <p>Prețul standard al serviciului. Poate fi 0 pentru servicii gratuite.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">⏱️</span>
+            <div class="feature-item-text">
+              <strong>Durată (minute)</strong>
+              <p>Minim 5 minute, pas de 5 minute. Folosită pentru calculul automat al orei de final la programări.</p>
+            </div>
+          </div>
+        </div>
+        <div class="screenshot-wrapper">
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <div class="phone-screen-placeholder">
+                <span class="placeholder-icon">📸</span>
+                <p>[Screenshot: formularul de adăugare serviciu]</p>
+              </div>
+            </div>
+          </div>
+          <p class="screenshot-caption">Formularul de adăugare serviciu</p>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">✏️</span> Editare serviciu</h3>
+        <p>Dai click pe numele serviciului din lista de servicii — se deschide formularul de editare. Modifici câmpurile dorite și salvezi.</p>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">🔕</span> Dezactivare serviciu</h3>
+        <p>Dai click pe <strong>badge-ul de status</strong> (Activ / Inactiv) de pe cardul serviciului. Serviciile inactive <strong>nu apar</strong> în formularul de adăugare programări noi, dar rămân în istoricul programărilor existente.</p>
+        <div class="info-box">
+          <strong>ℹ️ De ce nu se șterg serviciile?</strong> Programările existente fac referire la serviciul ales. Dacă ai șterge serviciul, programările din trecut ar pierde informația despre serviciul efectuat. De aceea serviciile se dezactivează, nu se șterg.
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. DASHBOARD -->
+    <section class="guide-section" id="dashboard">
+      <div class="section-label-tag">09 · Dashboard</div>
+      <div class="section-header">
+        <div class="section-icon">💰</div>
+        <h2>Dashboard</h2>
+      </div>
+      <p class="section-intro">Dashboard-ul îți oferă o imagine completă asupra activității tale. Vezi statistici pe diferite perioade de timp, graficul încasărilor și programările neplătite.</p>
+      <hr class="section-divider" />
+
+      <div class="subsection">
+        <h3><span class="sub-icon">📊</span> Perioade de vizualizare</h3>
+        <p>Selectezi perioada dorită din butoanele de la partea de sus: <strong>Zi, Săptămână, Lună</strong> sau <strong>An</strong>. Navighezi între perioade cu săgețile ← →.</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="feature-item-icon">📆</span>
+            <div class="feature-item-text">
+              <strong>Zi</strong>
+              <p>Statistici pentru o zi specifică. Navighezi zi cu zi sau selectezi direct o dată din calendar.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">🗓️</span>
+            <div class="feature-item-text">
+              <strong>Săptămână</strong>
+              <p>Statistici pentru săptămâna curentă (Luni – Duminică).</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">📅</span>
+            <div class="feature-item-text">
+              <strong>Lună</strong>
+              <p>Statistici pentru luna curentă. Graficul afișează zilele lunii.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">📈</span>
+            <div class="feature-item-text">
+              <strong>An</strong>
+              <p>Statistici anuale cu total, cea mai bună lună și media lunară. Graficul afișează cele 12 luni.</p>
+            </div>
+          </div>
+        </div>
+        <div class="screenshot-wrapper">
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <div class="phone-screen-placeholder">
+                <span class="placeholder-icon">📸</span>
+                <p>[Screenshot: Dashboard cu grafic și statistici]</p>
+              </div>
+            </div>
+          </div>
+          <p class="screenshot-caption">Dashboard — vizualizare lunară</p>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">👁️</span> Ascundere sume</h3>
+        <p>Apasă iconița <strong>👁</strong> din dashboard pentru a masca toate sumele cu <strong>****</strong>. Util când demonstrezi aplicația altcuiva sau când telefonul e vizibil în public. Setarea se păstrează până o dezactivezi manual.</p>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">⚠️</span> Programări neplătite</h3>
+        <p>Dacă ai programări cu statusul <strong>Finalizat</strong> (efectuate dar neîncasate), acestea apar ca reminder în dashboard. Dai click pe oricare pentru a o deschide și a o marca ca plătită.</p>
+      </div>
+
+      <div class="subsection" id="dashboard-export">
+        <h3><span class="sub-icon">📤</span> Export CSV</h3>
+        <p>Apasă butonul <strong>Export CSV</strong> din dashboard pentru a descărca programările perioadei curente ca fișier Excel-compatibil.</p>
+        <div class="tip-box">
+          <strong>💡 Compatibilitate Excel:</strong> Fișierul exportat include codificarea UTF-8 cu BOM — diacriticele (ă, â, î, ș, ț) apar corect în Excel pe Windows fără configurări suplimentare.
+        </div>
+        <div class="warning-box">
+          <strong>⚠️ Atenție:</strong> Butonul Export CSV este dezactivat dacă perioada selectată nu conține nicio programare.
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. BALANTA -->
+    <section class="guide-section" id="balanta">
+      <div class="section-label-tag">10 · Balanță</div>
+      <div class="section-header">
+        <div class="section-icon">📊</div>
+        <h2>Balanță & Cheltuieli</h2>
+      </div>
+      <p class="section-intro">Modulul Balanță îți oferă o imagine completă asupra situației financiare lunare și anuale — venituri din programări, venituri extra și cheltuieli fixe sau variabile.</p>
+      <hr class="section-divider" />
+
+      <div class="subsection">
+        <h3><span class="sub-icon">🔓</span> Activare modul Balanță</h3>
+        <p>Modulul Balanță este <strong>opțional</strong> și dezactivat implicit. Îl activezi din <strong>Setări → Module opționale → toggle Balanță & Cheltuieli</strong>.</p>
+        <div class="info-box">
+          <strong>ℹ️ De ce e opțional?</strong> Nu toți freelancerii au nevoie de urmărirea cheltuielilor. Dacă folosești doar calendarul și programările, poți lăsa modulul dezactivat.
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">📅</span> Vizualizare lunară</h3>
+        <p>Vizualizarea lunară afișează pentru luna selectată:</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="feature-item-icon">💚</span>
+            <div class="feature-item-text">
+              <strong>Încasat din programări</strong>
+              <p>Suma totală din programările cu status „Plătit" în luna respectivă.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">💛</span>
+            <div class="feature-item-text">
+              <strong>Venituri extra</strong>
+              <p>Venituri care nu provin din programări — le adaugi manual (ex: vânzări produse, alte surse).</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">❤️</span>
+            <div class="feature-item-text">
+              <strong>Cheltuieli</strong>
+              <p>Cheltuieli fixe (chirie, abonamente) și variabile (produse, transport) — le adaugi manual.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">⚖️</span>
+            <div class="feature-item-text">
+              <strong>Balanță</strong>
+              <p>Calculată automat: Încasat + Venituri extra − Cheltuieli.</p>
+            </div>
+          </div>
+        </div>
+        <div class="tip-box">
+          <strong>💡 Cheltuieli fixe automate:</strong> Cheltuielile și veniturile marcate ca „Fix" se copiază automat din luna precedentă la prima accesare a lunii noi. Nu mai trebuie să le reintroduci lunar.
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">📈</span> Vizualizare anuală</h3>
+        <p>Toggle-ul „An" din Balanță afișează un sumar pentru toate lunile anului curent — total venituri, total cheltuieli și balanța per lună. Poți naviga între ani cu săgețile ← →.</p>
+      </div>
+    </section>
+
+    <!-- 11. SETARI -->
+    <section class="guide-section" id="setari">
+      <div class="section-label-tag">11 · Setări</div>
+      <div class="section-header">
+        <div class="section-icon">⚙️</div>
+        <h2>Setări</h2>
+      </div>
+      <p class="section-intro">Din pagina Setări îți personalizezi contul, gestionezi abonamentul și configurezi opțiunile aplicației. Fiecare secțiune se salvează independent.</p>
+      <hr class="section-divider" />
+
+      <div class="subsection">
+        <h3><span class="sub-icon">👤</span> Date personale</h3>
+        <p>Modifici <strong>prenumele, numele</strong> și <strong>numărul de telefon personal</strong>. Aceste date apar în mesajele WhatsApp trimise din aplicație.</p>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">🏢</span> Date salon / locație</h3>
+        <p>Completezi informațiile despre locul unde lucrezi: <strong>nume salon, telefon salon, adresă, link Google Maps</strong>. Aceste date sunt folosite în mesajele de confirmare trimise pe WhatsApp.</p>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">🖼️</span> Fotografie de profil</h3>
+        <p>Apasă pe avatarul tău și selectează o imagine de pe dispozitiv. Dimensiunea maximă acceptată este <strong>5MB</strong>. Formatul poate fi JPG, PNG sau WebP.</p>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">🎨</span> Temă de culori</h3>
+        <p>Alegi una din cele <strong>6 palete de culori</strong> disponibile. Tema se aplică instant în toată aplicația. Opțiunile disponibile sunt: MakeArt Gold, Teal & White, Navy Soft, Rose & Cream, Charcoal Elegant, Verde Sage.</p>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">🔒</span> Schimbare parolă</h3>
+        <p>Introduci <strong>parola curentă</strong>, apoi <strong>parola nouă</strong> (de două ori pentru confirmare). Parola nouă trebuie să respecte aceleași cerințe: minim 8 caractere, o literă mare, o cifră.</p>
+        <div class="warning-box">
+          <strong>⚠️ Atenție:</strong> Parola curentă este necesară ca măsură de securitate — chiar dacă ești deja logat.
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">🧩</span> Module opționale</h3>
+        <p>Activezi sau dezactivezi modulul <strong>Balanță & Cheltuieli</strong> cu un toggle. Dezactivarea modulului nu șterge datele deja introduse.</p>
+      </div>
+
+      <div class="subsection">
+        <h3><span class="sub-icon">🚪</span> Deconectare</h3>
+        <p>Butonul <strong>Deconectare</strong> se află la finalul paginii Setări. După deconectare ești redirecționat la pagina de login. Datele tale rămân salvate în cont.</p>
+      </div>
+    </section>
+
+    <!-- 12. FAQ -->
+    <section class="guide-section" id="faq">
+      <div class="section-label-tag">12 · FAQ</div>
+      <div class="section-header">
+        <div class="section-icon">❓</div>
+        <h2>Întrebări frecvente</h2>
+      </div>
+      <p class="section-intro">Răspunsuri la cele mai comune întrebări despre Self Agenda. Nu găsești răspunsul? Scrie-ne la <strong>contact@selfagenda.ro</strong>.</p>
+      <hr class="section-divider" />
+
+      <div class="faq-list">
+
+        <details>
+          <summary>Trebuie să instalez ceva pentru a folosi Self Agenda?</summary>
+          <div class="faq-answer">Nu este nevoie să descarci nimic din App Store sau Google Play. Self Agenda funcționează direct din browser. Opțional, o poți adăuga pe ecranul principal al telefonului ca aplicație — procesul durează 30 de secunde și este descris în secțiunea <a href="#instalare">Instalare PWA</a>.</div>
+        </details>
+
+        <details>
+          <summary>Funcționează și fără internet?</summary>
+          <div class="faq-answer">Aplicația necesită conexiune la internet pentru a funcționa complet, deoarece datele sunt stocate în cloud. O conexiune mobilă standard (4G) este suficientă — aplicația este optimizată pentru consum redus de date.</div>
+        </details>
+
+        <details>
+          <summary>Pe ce dispozitive pot folosi Self Agenda?</summary>
+          <div class="faq-answer">Pe orice dispozitiv cu browser modern: iPhone, Android, tabletă sau calculator. Aplicația are un design responsiv — se adaptează automat la dimensiunea ecranului.</div>
+        </details>
+
+        <details>
+          <summary>Datele mele sunt în siguranță?</summary>
+          <div class="faq-answer">Da. Datele tale sunt stocate securizat în cloud (Supabase), criptate și accesibile exclusiv din contul tău. Niciun alt utilizator nu poate vedea programările sau contactele tale.</div>
+        </details>
+
+        <details>
+          <summary>Câte contacte și servicii pot adăuga?</summary>
+          <div class="faq-answer">Nelimitat. Nu există nicio restricție privind numărul de contacte, servicii sau programări — indiferent de planul ales.</div>
+        </details>
+
+        <details>
+          <summary>Pot folosi Self Agenda de pe mai multe dispozitive simultan?</summary>
+          <div class="faq-answer">Da. Contul tău este accesibil de pe orice dispozitiv în același timp. Modificările sunt sincronizate automat — o programare adăugată de pe telefon apare imediat și pe calculator.</div>
+        </details>
+
+        <details>
+          <summary>Cum funcționează importul de contacte?</summary>
+          <div class="faq-answer">Pe Android Chrome poți importa direct din agenda telefonului. Pe iPhone și desktop, exporti contactul ca fișier .vcf din aplicația Contacte și îl incarci în Self Agenda. Detalii complete în secțiunea <a href="#contacte-import">Import contacte</a>.</div>
+        </details>
+
+        <details>
+          <summary>Am șters un contact din greșeală. Ce fac?</summary>
+          <div class="faq-answer">Nu este o problemă! Contactele șterse merg în Coșul de gunoi și pot fi recuperate în termen de 30 de zile. Mergi în pagina Contacte → „Contacte șterse" → apasă „Recuperează" lângă contactul dorit.</div>
+        </details>
+
+        <details>
+          <summary>Pot adăuga mai multe programări deodată pentru același contact?</summary>
+          <div class="faq-answer">Da, prin funcția <strong>Multi-booking</strong>. Selectezi contactul, serviciul, ora și mai multe zile din calendar — toate programările se creează simultan. Conflictele sunt detectate automat. Detalii în secțiunea <a href="#programari-multiple">Programări multiple</a>.</div>
+        </details>
+
+        <details>
+          <summary>Cum funcționează confirmarea pe WhatsApp?</summary>
+          <div class="faq-answer">Din detaliile oricărei programări, apasă butonul WhatsApp. Aplicația deschide automat conversația cu contactul respectiv și completează mesajul de confirmare sau reminder. Tu doar apeși „Trimite". Contactul trebuie să aibă un număr de telefon salvat.</div>
+        </details>
+
+        <details>
+          <summary>Sărbătorile legale sunt actualizate automat?</summary>
+          <div class="faq-answer">Da. Self Agenda include toate sărbătorile legale din România, inclusiv Paștele ortodox (calculat dinamic în fiecare an). Sărbătorile apar cu bordură roșie în calendar — dai click pe ziua respectivă pentru a vedea numele sărbătorii.</div>
+        </details>
+
+        <details>
+          <summary>Pot exporta programările mele?</summary>
+          <div class="faq-answer">Da. Din Dashboard, butonul „Export CSV" descarcă toate programările perioadei selectate ca fișier compatibil cu Excel. Diacriticele sunt corecte în Excel pe Windows fără configurări suplimentare.</div>
+        </details>
+
+        <details>
+          <summary>Ce se întâmplă dacă abonamentul meu expiră?</summary>
+          <div class="faq-answer">La expirarea abonamentului, accesul la aplicație este restricționat. Datele tale rămân salvate în cont — la reînnoirea abonamentului, revii exact unde ai rămas, fără a pierde nicio informație.</div>
+        </details>
+
+        <details>
+          <summary>Pot schimba tema de culori oricând?</summary>
+          <div class="faq-answer">Da, oricând din Setări → Temă de culori. Sunt disponibile 6 palete: MakeArt Gold, Teal & White, Navy Soft, Rose & Cream, Charcoal Elegant și Verde Sage. Schimbarea se aplică instant.</div>
+        </details>
+
+        <details>
+          <summary>Modulul Balanță este inclus în abonament?</summary>
+          <div class="faq-answer">Da, este inclus în toate planurile. Trebuie activat manual din Setări → Module opționale → toggle Balanță & Cheltuieli. Este opțional deoarece nu toți freelancerii au nevoie de urmărirea cheltuielilor.</div>
+        </details>
+
+        <details>
+          <summary>Nu am primit emailul de activare după plată. Ce fac?</summary>
+          <div class="faq-answer">Verifică mai întâi folderul Spam / Junk din emailul tău. Dacă nu îl găsești nici acolo în 10 minute de la plată, contactează-ne la <strong>contact@selfagenda.ro</strong> cu adresa de email folosită la plată și te ajutăm imediat.</div>
+        </details>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Self<span>Agenda</span></div>
+  <p style="margin-bottom: 16px;">Agenda digitală pentru freelanceri din orice domeniu.</p>
+  <p>© 2026 SelfAgenda · <a href="index.html">Pagina principală</a> · <a href="#">Termeni și condiții</a> · <a href="#">Politică de confidențialitate</a></p>
+</footer>
+
+<script>
+  // ===== SEARCH =====
+  const searchData = [
+    { title: "Instalare pe iPhone (Safari)", section: "Instalare PWA", anchor: "#instalare-iphone", excerpt: "Cum instalezi Self Agenda pe iPhone din Safari în 4 pași simpli." },
+    { title: "Instalare pe Android (Chrome)", section: "Instalare PWA", anchor: "#instalare-android", excerpt: "Instalare PWA pe Android prin Google Chrome cu banner automat." },
+    { title: "Compatibilitate browsere și dispozitive", section: "Instalare PWA", anchor: "#instalare", excerpt: "Tabel complet cu compatibilitate: iPhone, Android, Desktop." },
+    { title: "Crearea contului și activarea", section: "Cont", anchor: "#cont", excerpt: "Cum primești accesul, setezi parola și te loghezi prima dată." },
+    { title: "Am uitat parola", section: "Cont", anchor: "#cont", excerpt: "Resetare parolă prin link trimis pe email." },
+    { title: "Cerințe parolă", section: "Cont", anchor: "#cont", excerpt: "Minim 8 caractere, o literă mare, o cifră." },
+    { title: "Onboarding — primul pas", section: "Onboarding", anchor: "#onboarding", excerpt: "Completarea numelui și alegerea temei de culori la prima logare." },
+    { title: "Navigare în calendar", section: "Calendar", anchor: "#calendar-navigare", excerpt: "Navigare lunară, indicatori vizuali, dot programări, sărbători legale." },
+    { title: "Indicatori vizuali calendar", section: "Calendar", anchor: "#calendar-navigare", excerpt: "Dot albastru, bordură roșie sărbători, 🚫 zi blocată, ⚠️ ore blocate." },
+    { title: "Sărbători legale România", section: "Calendar", anchor: "#calendar-navigare", excerpt: "Toate sărbătorile legale incluse, Paște ortodox calculat dinamic." },
+    { title: "Zile blocate — blocare zi întreagă", section: "Calendar", anchor: "#calendar-blocari", excerpt: "Cum blochezi o zi liberă sau concediu în calendar." },
+    { title: "Zile blocate — interval orar", section: "Calendar", anchor: "#calendar-blocari", excerpt: "Blocare ore specifice dintr-o zi — disponibil parțial." },
+    { title: "Ștergere blocare zi", section: "Calendar", anchor: "#calendar-blocari", excerpt: "Cum ștergi o blocare existentă din modal." },
+    { title: "Zile de naștere", section: "Calendar", anchor: "#calendar-nastere", excerpt: "Reminder zile naștere contacte și mesaj La mulți ani pe WhatsApp." },
+    { title: "Mesaj La mulți ani WhatsApp", section: "Calendar", anchor: "#calendar-nastere", excerpt: "Trimite felicitare de ziua de naștere direct din calendar." },
+    { title: "Istoric global programări", section: "Calendar", anchor: "#calendar-istoric", excerpt: "Butonul 📋 din header — toate programările cu filtre și paginare." },
+    { title: "Adăugare programare nouă", section: "Programări", anchor: "#programari-adaugare", excerpt: "3 pași: selectare contact, serviciu, dată și oră." },
+    { title: "Editare programare", section: "Programări", anchor: "#programari", excerpt: "Cum editezi o programare existentă." },
+    { title: "Reprogramare", section: "Programări", anchor: "#programari", excerpt: "Schimbarea datei și orei unei programări existente." },
+    { title: "Statusuri programare", section: "Programări", anchor: "#programari", excerpt: "Programat, Finalizat, Plătit, Anulat — ce înseamnă fiecare." },
+    { title: "Confirmare WhatsApp programare", section: "Programări", anchor: "#programari-whatsapp", excerpt: "Trimitere confirmare sau reminder pe WhatsApp cu un tap." },
+    { title: "Costuri materiale per programare", section: "Programări", anchor: "#programari-costuri", excerpt: "Adaugă costul materialelor folosite și calculează profitul real." },
+    { title: "Mesaj cost final WhatsApp", section: "Programări", anchor: "#programari-costuri", excerpt: "Trimite lista materialelor și totalul de plată pe WhatsApp." },
+    { title: "Programări multiple — Multi-booking", section: "Programări", anchor: "#programari-multiple", excerpt: "Adaugă același contact pe mai multe zile simultan." },
+    { title: "Adăugare contact manual", section: "Contacte", anchor: "#contacte", excerpt: "Câmpuri disponibile: nume, telefon, dată naștere, notițe." },
+    { title: "Import contacte din agendă Android", section: "Contacte", anchor: "#contacte-import", excerpt: "Import direct din agenda telefonului pe Android Chrome." },
+    { title: "Import fișier .vcf iPhone", section: "Contacte", anchor: "#contacte-import", excerpt: "Import contacte pe iPhone din fișier .vcf exportat din Contacte." },
+    { title: "Data nașterii contact", section: "Contacte", anchor: "#contacte", excerpt: "Cum se introduce data nașterii pentru remindere în calendar." },
+    { title: "Istoricul programărilor unui contact", section: "Contacte", anchor: "#contacte", excerpt: "Butonul 📋 Istoric din fișa de editare contact." },
+    { title: "Ștergere contact", section: "Contacte", anchor: "#contacte-stergere", excerpt: "Soft delete — contactul merge în coș, nu se șterge definitiv." },
+    { title: "Coș de gunoi contacte", section: "Contacte", anchor: "#contacte-stergere", excerpt: "Recuperare contacte șterse în termen de 30 de zile." },
+    { title: "Detecție duplicate contacte", section: "Contacte", anchor: "#contacte", excerpt: "Avertizare automată dacă există contact cu același nume sau telefon." },
+    { title: "Adăugare serviciu", section: "Servicii", anchor: "#servicii", excerpt: "Câmpuri: nume, preț, durată în minute." },
+    { title: "Dezactivare serviciu", section: "Servicii", anchor: "#servicii", excerpt: "Serviciile nu se șterg, se dezactivează — de ce." },
+    { title: "Dashboard statistici", section: "Dashboard", anchor: "#dashboard", excerpt: "Statistici pe zi, săptămână, lună și an cu navigare temporală." },
+    { title: "Ascundere sume dashboard", section: "Dashboard", anchor: "#dashboard", excerpt: "Toggle pentru mascarea sumelor cu **** în dashboard." },
+    { title: "Programări neplătite reminder", section: "Dashboard", anchor: "#dashboard", excerpt: "Reminder automat pentru programări finalizate dar neplătite." },
+    { title: "Export CSV", section: "Dashboard", anchor: "#dashboard-export", excerpt: "Descarcă programările perioadei ca fișier Excel-compatibil." },
+    { title: "Activare modul Balanță", section: "Balanță & Cheltuieli", anchor: "#balanta", excerpt: "Cum activezi modulul din Setări → Module opționale." },
+    { title: "Vizualizare lunară Balanță", section: "Balanță & Cheltuieli", anchor: "#balanta", excerpt: "Venituri din programări, venituri extra, cheltuieli, balanță." },
+    { title: "Cheltuieli fixe copiate automat", section: "Balanță & Cheltuieli", anchor: "#balanta", excerpt: "Cheltuielile fixe se copiază automat din luna precedentă." },
+    { title: "Vizualizare anuală Balanță", section: "Balanță & Cheltuieli", anchor: "#balanta", excerpt: "Sumar per lună pentru tot anul cu navigare între ani." },
+    { title: "Schimbare parolă din Setări", section: "Setări", anchor: "#setari", excerpt: "Re-autentificare cu parola veche necesară înainte de schimbare." },
+    { title: "Temă de culori", section: "Setări", anchor: "#setari", excerpt: "6 palete disponibile: MakeArt Gold, Teal, Navy, Rose, Charcoal, Sage." },
+    { title: "Fotografie de profil", section: "Setări", anchor: "#setari", excerpt: "Upload foto profil maxim 5MB, format JPG/PNG/WebP." },
+    { title: "Date salon și locație", section: "Setări", anchor: "#setari", excerpt: "Nume salon, telefon, adresă, link Google Maps." },
+    { title: "Deconectare", section: "Setări", anchor: "#setari", excerpt: "Butonul de logout se află la finalul paginii Setări." },
+  ];
+
+  const searchInput = document.getElementById('searchInput');
+  const searchResults = document.getElementById('searchResults');
+
+  searchInput.addEventListener('input', function() {
+    const query = this.value.trim().toLowerCase();
+
+    if (query.length < 2) {
+      searchResults.classList.remove('visible');
+      searchResults.innerHTML = '';
+      return;
+    }
+
+    const results = searchData.filter(item =>
+      item.title.toLowerCase().includes(query) ||
+      item.excerpt.toLowerCase().includes(query) ||
+      item.section.toLowerCase().includes(query)
+    ).slice(0, 8);
+
+    if (results.length === 0) {
+      searchResults.innerHTML = '<div class="search-no-results">Niciun rezultat găsit pentru „' + this.value + '"</div>';
+    } else {
+      searchResults.innerHTML = results.map(r =>
+        `<div class="search-result-item" onclick="goToResult('${r.anchor}')">
+          <div class="search-result-title">${r.title}</div>
+          <div class="search-result-section">${r.section}</div>
+          <div class="search-result-excerpt">${r.excerpt}</div>
+        </div>`
+      ).join('');
+    }
+
+    searchResults.classList.add('visible');
+  });
+
+  function goToResult(anchor) {
+    searchResults.classList.remove('visible');
+    searchInput.value = '';
+    const el = document.querySelector(anchor);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      el.style.transition = 'background 0.3s';
+      el.style.background = 'rgba(196,168,130,0.12)';
+      setTimeout(() => { el.style.background = ''; }, 1500);
+    }
+  }
+
+  document.addEventListener('click', function(e) {
+    if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+      searchResults.classList.remove('visible');
+    }
+  });
+
+  // ===== ACTIVE NAV =====
+  const sections = document.querySelectorAll('.guide-section');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => link.classList.remove('active'));
+        const id = entry.target.getAttribute('id');
+        const activeLink = document.querySelector(`.nav-link[href="#${id}"]`);
+        if (activeLink) activeLink.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
